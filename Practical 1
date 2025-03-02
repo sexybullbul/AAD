@@ -44,3 +44,73 @@ fun main(args: Array<String>) {
 -----------------------------{end}----------------------------------------
 
 ------------------------------{5}-----------------------------------------
+fun main(args: Array<String>) {
+
+    for (i in 1..5) {
+        println(i)
+    }
+}
+-----------------------------{end}----------------------------------------
+
+------------------------------{6}-----------------------------------------
+fun main(args: Array<String>) {
+
+    var language = arrayOf("Ruby", "Kotlin", "Python" , "Java")
+
+    for (item in language)
+        println(item)
+}
+-----------------------------{end}----------------------------------------
+
+------------------------------{7}-----------------------------------------
+fun main(args: Array<String>) {
+
+    var text= "Kotlin"
+
+    for (letter in text) {
+        println(letter)
+    }
+}
+-----------------------------{end}----------------------------------------
+
+Q2) write a program to implement  object oriented program in kotlin?
+------------------------------{1}-----------------------------------------
+class Car {
+  var brand = ""
+  var model = ""
+  var year = 0
+}
+
+fun main() {
+  val c1 = Car()
+  c1.brand = "Ford"
+  c1.model = "Mustang"
+  c1.year = 1969
+  
+  println(c1.brand)
+  println(c1.model)
+  println(c1.year)
+}
+-----------------------------{end}----------------------------------------
+
+------------------------------{2}-----------------------------------------
+class Car(var brand: String, var model: String, var year: Int) {
+
+fun drive() {
+    println("Wrooom!")
+  }
+
+  fun speed(maxSpeed: Int) {
+    println("Max speed is: " + maxSpeed)
+  }
+}
+
+fun main() {
+  val c1 = Car("Ford", "Mustang", 1969)
+  
+  println(c1.brand + " " + c1.model + " " + c1.year)
+  
+  c1.drive()
+  c1.speed(200)
+}
+-----------------------------{end}----------------------------------------
