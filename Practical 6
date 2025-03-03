@@ -1,0 +1,98 @@
+Aim:- Create an Android application to demonstrate XML 
+based animation 
+
+1} activity_main.xml
+---------------------------------------------------------{XML}-----------------------------------------------------------------------
+code:
+
+<?xml version="1.0" encoding="utf-8"?> 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+   android:layout_width="match_parent" 
+   android:layout_height="match_parent"> 
+ 
+   <TextView 
+       android:id="@+id/textView" 
+       android:layout_width="wrap_content" 
+       android:layout_height="wrap_content" 
+       android:text="Hello, World!" 
+       android:textSize="24sp" 
+       android:layout_centerInParent="true" 
+       android:visibility="invisible"/> 
+ 
+   <Button 
+       android:id="@+id/button" 
+       android:layout_width="wrap_content" 
+       android:layout_height="wrap_content" 
+       android:text="Show Text" 
+       android:layout_alignParentBottom="true" 
+       android:layout_centerHorizontal="true"/> 
+</RelativeLayout> 
+
+
+2} MainActivity.java
+---------------------------------------------------------{java}------------------------------------------------------------------------
+code:
+
+package com.example.xmlanimationapp 
+ 
+import android.os.Bundle 
+import androidx.activity.ComponentActivity 
+import androidx.activity.compose.setContent 
+import androidx.compose.animation.AnimatedVisibility 
+import androidx.compose.animation.fadeIn 
+import androidx.compose.foundation.layout.Column 
+import androidx.compose.foundation.layout.fillMaxSize 
+import androidx.compose.foundation.layout.padding 
+import androidx.compose.material3.Button 
+import androidx.compose.material3.Scaffold 
+import androidx.compose.material3.Text 
+import androidx.compose.runtime.Composable 
+import androidx.compose.runtime.mutableStateOf 
+import androidx.compose.runtime.remember 
+import androidx.compose.ui.Modifier 
+import androidx.compose.ui.tooling.preview.Preview 
+import androidx.compose.ui.unit.dp 
+import com.example.xmlanimationapp.ui.theme.XMLAnimationAppTheme 
+ 
+class MainActivity : ComponentActivity() { 
+   override fun onCreate(savedInstanceState: Bundle?) { 
+       super.onCreate(savedInstanceState) 
+       setContent { 
+           XMLAnimationAppTheme { 
+               Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding -> 
+                   Column(modifier = Modifier.padding(innerPadding)) { 
+                       AnimatedTextButton() 
+                   } 
+               } 
+           } 
+       } 
+   } 
+} 
+ 
+@Composable 
+fun AnimatedTextButton() { 
+   val visible = remember { mutableStateOf(false) } 
+ 
+   Button( 
+       onClick = { visible.value = !visible.value }, 
+       modifier = Modifier.padding(16.dp) 
+   ) { 
+       Text(text = "Toggle Text Animation") 
+   } 
+ 
+   AnimatedVisibility( 
+       visible = visible.value, 
+       enter = fadeIn(), 
+       modifier = Modifier.padding(16.dp) 
+   ) { 
+       Text(text = "Hello, World!") 
+   } 
+} 
+@Preview(showBackground = true) 
+@Composable 
+fun DefaultPreview() { 
+XMLAnimationAppTheme { 
+AnimatedTextButton() 
+} 
+} 
+---------------------------------------------------------{END}------------------------------------------------------------------------
