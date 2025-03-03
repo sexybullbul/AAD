@@ -60,3 +60,228 @@ This is the layout file where you design the UI components.
         android:text="Submit"/>
 
 </LinearLayout>
+---------------------------------------------------------{JAVA}-----------------------------------------------------------------------
+MainActivity.java:
+
+package com.example.designscreensapp;
+
+import android.os.Bundle;
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView tvTitle;
+    private EditText etInput;
+    private RadioGroup radioGroup;
+    private RadioButton radioOption1, radioOption2;
+    private Button btnSubmit;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize views
+        tvTitle = findViewById(R.id.tvTitle);
+        etInput = findViewById(R.id.etInput);
+        radioGroup = findViewById(R.id.radioGroup);
+        radioOption1 = findViewById(R.id.radioOption1);
+        radioOption2 = findViewById(R.id.radioOption2);
+        btnSubmit = findViewById(R.id.btnSubmit);
+
+        // Set button click listener
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the text from EditText
+                String userInput = etInput.getText().toString();
+
+                // Check which radio button is selected
+                int selectedRadioId = radioGroup.getCheckedRadioButtonId();
+                String selectedOption = "";
+                if (selectedRadioId == radioOption1.getId()) {
+                    selectedOption = "Option 1";
+                } else if (selectedRadioId == radioOption2.getId()) {
+                    selectedOption = "Option 2";
+                }
+
+                // Show Toast with user input and selected option
+                Toast.makeText(MainActivity.this,
+                        "User Input: " + userInput + "\nSelected: " + selectedOption,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+---------------------------------------------------------{END}-----------------------------------------------------------------------
+
+Q2] Write an android application demonstrating response to event/user interaction for
+     a. Checkbox
+     b. RadioButton
+     c. Button
+     d.Spinner
+---------------------------------------------------------{XML}-----------------------------------------------------------------------
+Modify the activity_main.xml layout file to include:
+
+●	A Checkbox
+●	A RadioButton (grouped with another RadioButton)
+●	A Button
+●	A Spinner
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Checkbox for user selection -->
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept Terms"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"/>
+
+    <!-- RadioGroup containing RadioButtons -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 1" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 2" />
+    </RadioGroup>
+
+    <!-- Spinner for dropdown selection -->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"/>
+
+    <!-- Button that will trigger event actions -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"/>
+
+    <!-- TextView to display the result -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result will appear here"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+---------------------------------------------------------{JAVA}-----------------------------------------------------------------------
+Modify MainActivity.java to Handle Events:
+
+Now, let's write the code to handle the interaction logic for these UI elements.
+
+package com.example.userinteractionexample;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private CheckBox checkBox;
+    private RadioGroup radioGroup;
+    private Spinner spinner;
+    private Button button;
+    private TextView textView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize UI components
+        checkBox = findViewById(R.id.checkBox);
+        radioGroup = findViewById(R.id.radioGroup);
+        spinner = findViewById(R.id.spinner);
+        button = findViewById(R.id.button);
+        textView = findViewById(R.id.textView);
+
+        // Spinner setup
+        String[] items = {"Option A", "Option B", "Option C"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // Set OnClickListener for the Button
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle checkbox state
+                String checkboxStatus = checkBox.isChecked() ? "Accepted" : "Not Accepted";
+
+                // Handle selected RadioButton
+                int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+                RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+                String radioButtonSelection = selectedRadioButton != null ? selectedRadioButton.getText().toString() : "No option selected";
+
+                // Handle Spinner selection
+                String spinnerSelection = spinner.getSelectedItem().toString();
+
+                // Display results
+                String result = "Checkbox: " + checkboxStatus + "\n" +
+                                "RadioButton: " + radioButtonSelection + "\n" +
+                                "Spinner: " + spinnerSelection;
+                textView.setText(result);
+
+                // Optional: Display a Toast message
+                Toast.makeText(MainActivity.this, "Submitted!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+---------------------------------------------------------{END}-----------------------------------------------------------------------
